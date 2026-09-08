@@ -19,6 +19,9 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+
     - name: Setup Flutter
       uses: subosito/flutter-action@v2
       with:
@@ -27,14 +30,9 @@ jobs:
 
     - name: Create Standard Flutter Project Structure
       run: |
-        # 倉庫の直下にあるmain.dartを退避
         mkdir -p temp_src
         cp main.dart temp_src/
-        
-        # サーバー上で標準のFlutterプロジェクト構造を一瞬で自動生成
         flutter create --platforms=android . --force
-        
-        # 自動生成された初期lib/main.dartを、あなたが作った完璧なmain.dartで上書き置換
         cp temp_src/main.dart lib/main.dart
         rm -rf temp_src
 
